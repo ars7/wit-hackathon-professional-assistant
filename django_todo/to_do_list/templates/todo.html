@@ -1,0 +1,39 @@
+{% extends 'base.html' %}
+{% block content %}
+	<form class="d-flex" action="{%url 'todo'%}" method="POST">
+	      {% csrf_token %}
+	      <label for = "item" class="btn btn-outline-dark"> Add Task </label>
+	      <input class="form-control me-2" type="text" placeholder="Add Item" name = "item" id = "item">
+	      <label for = "expected_time" class="btn btn-outline-dark"> Time Estimation</label>
+	      <input class="form-control me-2" type="text" placeholder="Add Item" name = "expected_time" id = "expected_time">
+	      <label for = "frequency" class="btn btn-outline-dark"> Frequency per week </label>
+	      <input class="form-control me-2" type="text" placeholder="Add Item" name = "frequency" id = "frequency">
+	      <button class="btn btn-outline-dark" type="submit">Submit</button>
+	</form>
+
+	{% if messages %}
+		{% for message in messages %}
+			<div class="alert alert-success alert-dismissible fade show" role="alert">
+			  {{ message }}
+			  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+			</div>
+		{% endfor %}
+	{% endif %}
+
+	{% if all_items %}
+		<table class="table table-bordered">
+			{% for things in all_items %}
+				<tr>
+					<td> {{ things.item }} </td>
+					<td> {{things.expected_time}} </td>
+					<td> {{things.frequency}} </td>
+					<td><center>{{ things.completed }}</center></td>
+					<td><center><a href="{% url 'delete' things.id %}">Delete</a></center></td>
+				</tr>
+			{% endfor %}
+		</table>
+	{% endif %}
+{% endblock %}
+
+
+
